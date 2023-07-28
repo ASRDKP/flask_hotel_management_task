@@ -1,0 +1,1 @@
+This is a flask application intigrated with the AWS Dynamodb.
