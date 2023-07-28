@@ -100,3 +100,61 @@ def delete_from_record_table(recept_id):
         }
     )
     return response
+
+
+
+
+def update_in_record_table(recept_id, data:dict):
+    response = Hotel_Management.update_item(
+        Key = {
+            'recept_id': recept_id
+        },
+        AttributeUpdates={
+            'Date': {
+                'Value'  : data['Date'],
+                'Action' : 'PUT' 
+            },
+            'Number_of_members': {
+                'Value'  : data['Number_of_members'],
+                'Action' : 'PUT'
+            },
+            'Name_of_members': {
+                'Value'  : data['Name_of_members'],
+                'Action' : 'PUT'
+            },
+            'Id_type': {
+                'Value'  : data['Id_type'],
+                'Action' : 'PUT'
+            },
+            'ID': {
+                'Value'  : data['ID'],
+                'Action' : 'PUT'
+            },
+            'Room_No': {
+                'Value'  : data['Room_No'],
+                'Action' : 'PUT'
+            },
+            'Check_in_time': {
+                'Value'  : data['Check_in_time'],
+                'Action' : 'PUT'
+            },
+            'Check_out_time': {
+                'Value'  : data['Check_out_time'],
+                'Action' : 'PUT'
+            },
+            'Total_amount': {
+                'Value'  : data['Total_amount'],
+                'Action' : 'PUT'
+            },
+            'Payment_method': {
+                'Value'  : data['Payment_method'],
+                'Action' : 'PUT'
+            },
+            'Payment_id': {
+                'Value'  : data['Payment_id'],
+                'Action' : 'PUT'
+            }
+        },
+        ReturnValues = "UPDATED_NEW"  # returns the new updated values
+    )    
+    return response
