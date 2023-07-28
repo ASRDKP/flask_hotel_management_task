@@ -13,11 +13,11 @@ def root_route():
         dynamodb.create_table_reception_desk()
         return 'Table created'
     except Exception as e:
-            df = {
-                "Error_Message" : "Something went wrong while creating the Table by root_route()",
-                "Error" : e.args[0]
-            }
-            return df
+        df = {
+            "Error_Message" : "Something went wrong while creating the Table by root_route()",
+            "Error" : e.args[0]
+        }
+        return df
         
 
 @app.route('/room_booking', methods=['POST'])
@@ -30,8 +30,26 @@ def add_receipt():
                 'msg': 'Room Booked successfully',
             }
     except Exception as e:
-            df = {
-                "Error_Message" : "Something went wrong while Booking a Room in add_receipt()",
-                "Error" : e.args[0]
-            }
-            return df
+        df = {
+            "Error_Message" : "Something went wrong while Booking a Room in add_receipt()",
+            "Error" : e.args[0]
+        }
+        return df
+    
+        
+
+
+@app.route('/get_detail_by_recept_id/<int:recept_id>', methods=['GET'])
+def get_details_from_record_table(recept_id):
+    try:
+        response = dynamodb.read_from_record_table(recept_id)
+        if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+            if ('Item' in response):
+                return { 'Item': response['Item'] }
+            return { 'msg' : 'Item not found!' }
+    except Exception as e:
+        df = {
+            "Error_Message" : "Something went wrong while fetching information by receipt_id from the record_table",
+            "Error" : e.args[0]
+        }
+        return df

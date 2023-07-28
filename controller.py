@@ -47,23 +47,47 @@ Hotel_Management = resource.Table('Hotel_Management')
 
 
 def write_to_record_table(recept_id, Date, Number_of_members, Name_of_members, Id_type, ID, Room_No, Check_in_time, Check_out_time, Total_amount, Payment_method, Payment_id):
-   response = Hotel_Management.put_item(
-       Item = {
-           'recept_id'     : recept_id,
-           'Date'  : Date,
-           'Number_of_members' : Number_of_members,
-           'Name_of_members'  : Name_of_members,
-           'Id_type' : Id_type,
-           'ID' : ID,
-           'Room_No' : Room_No,
-           'Check_in_time' :Check_in_time,
-           'Check_out_time' : Check_out_time,
-           'Total_amount' : Total_amount,
-           'Payment_method' : Payment_method,
-           'Payment_id' : Payment_id
-       }
-   )
-   return response
+    try:
+        response = Hotel_Management.put_item(
+            Item = {
+                'recept_id'     : recept_id,
+                'Date'  : Date,
+                'Number_of_members' : Number_of_members,
+                'Name_of_members'  : Name_of_members,
+                'Id_type' : Id_type,
+                'ID' : ID,
+                'Room_No' : Room_No,
+                'Check_in_time' :Check_in_time,
+                'Check_out_time' : Check_out_time,
+                'Total_amount' : Total_amount,
+                'Payment_method' : Payment_method,
+                'Payment_id' : Payment_id
+            }
+        )
+        return response
+    except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in controller.write_to_record_table()",
+                "Error" : e.args[0]
+            }
+            return df
 
-
-
+        
+        
+def read_from_record_table(recept_id):
+    try:
+        response = Hotel_Management.get_item(
+            Key = {
+                'recept_id'     : recept_id
+            },
+            AttributesToGet = [
+                'recept_id', 'Date', 'Number_of_members', 'Name_of_members', 'Id_type', 'ID', 'Room_No', 'Check_in_time', 'Check_out_time', 'Total_amount', 'Payment_method', 'Payment_id'
+        ])
+        return response
+    except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in controller.read_from_record_table()",
+                "Error" : e.args[0]
+            }
+            return df
+        
