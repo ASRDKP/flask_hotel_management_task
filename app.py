@@ -53,3 +53,21 @@ def get_details_from_record_table(recept_id):
             "Error" : e.args[0]
         }
         return df
+    
+    
+
+
+@app.route('/delete_record/<int:recept_id>', methods=['DELETE'])
+def delete_from_record_table(recept_id):
+    try:
+        response = dynamodb.delete_from_record_table(recept_id)
+        if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+            return {
+                'msg': 'Delete successful',
+            }
+    except Exception as e:
+        df = {
+            "Error_Message" : "Something went wrong while deleting record by delete_from_record_table()",
+            "Error" : e.args[0]
+        }
+        return df    

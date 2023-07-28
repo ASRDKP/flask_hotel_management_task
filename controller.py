@@ -91,3 +91,12 @@ def read_from_record_table(recept_id):
             }
             return df
         
+        
+
+def delete_from_record_table(recept_id):
+    response = Hotel_Management.delete_item(
+        Key = {
+            'recept_id': recept_id
+        }
+    )
+    return response
