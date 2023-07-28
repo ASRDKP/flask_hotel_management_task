@@ -71,3 +71,24 @@ def delete_from_record_table(recept_id):
             "Error" : e.args[0]
         }
         return df    
+    
+    
+    
+
+@app.route('/update_record/<int:recept_id>', methods=['PUT'])
+def update_record(recept_id):
+    try:
+        data = request.get_json()
+        response = dynamodb.update_in_record_table(recept_id, data)
+        if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+            return {
+                'msg'                : 'update successful',
+                'response'           : response['ResponseMetadata'],
+                'ModifiedAttributes' : response['Attributes']
+            }
+    except Exception as e:
+        df = {
+            "Error_Message" : "Something went wrong while updating record by update_record()",
+            "Error" : e.args[0]
+        }
+        return df 
