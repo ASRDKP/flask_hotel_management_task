@@ -55,7 +55,7 @@ def write_to_record_table(recept_id, Date, Number_of_members, Name_of_members, I
            'Name_of_members'  : Name_of_members,
            'Id_type' : Id_type,
            'ID' : ID,
-           'Room_No.' : Room_No,
+           'Room_No' : Room_No,
            'Check_in_time' :Check_in_time,
            'Check_out_time' : Check_out_time,
            'Total_amount' : Total_amount,
