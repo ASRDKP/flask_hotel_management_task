@@ -1,5 +1,5 @@
-from flask import Flask
-from boto3 import resource
+from flask import Flask, request
+import controller as dynamodb
 
 
 
