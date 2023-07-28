@@ -39,3 +39,31 @@ def create_table_reception_desk():
        }
    )
    return table
+
+
+Hotel_Management = resource.Table('Hotel_Management')
+
+
+
+
+def write_to_record_table(recept_id, Date, Number_of_members, Name_of_members, Id_type, ID, Room_No, Check_in_time, Check_out_time, Total_amount, Payment_method, Payment_id):
+   response = Hotel_Management.put_item(
+       Item = {
+           'recept_id'     : recept_id,
+           'Date'  : Date,
+           'Number_of_members' : Number_of_members,
+           'Name_of_members'  : Name_of_members,
+           'Id_type' : Id_type,
+           'ID' : ID,
+           'Room_No' : Room_No,
+           'Check_in_time' :Check_in_time,
+           'Check_out_time' : Check_out_time,
+           'Total_amount' : Total_amount,
+           'Payment_method' : Payment_method,
+           'Payment_id' : Payment_id
+       }
+   )
+   return response
+
+
+
