@@ -19,26 +19,33 @@ resource = resource(
 
 
 def create_table_reception_desk():   
-   table = resource.create_table(
-       TableName = 'Hotel_Management', # Name of the table
-       KeySchema = [
-           {
-               'AttributeName': 'recept_id',
-               'KeyType'      : 'HASH' #RANGE = sort key, HASH = partition key
-           }
-       ],
-       AttributeDefinitions = [
-           {
-               'AttributeName': 'recept_id', # Name of the attribute
-               'AttributeType': 'N'   # N = Number (B= Binary, S = String)
-           }
-       ],
-       ProvisionedThroughput={
-           'ReadCapacityUnits'  : 10,
-           'WriteCapacityUnits': 10
-       }
-   )
-   return table
+    try:
+        table = resource.create_table(
+            TableName = 'Hotel_Management', 
+            KeySchema = [
+                {
+                    'AttributeName': 'recept_id',
+                    'KeyType'      : 'HASH'
+                }
+            ],
+            AttributeDefinitions = [
+                {
+                    'AttributeName': 'recept_id', 
+                    'AttributeType': 'N'   
+                }
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits'  : 10,
+                'WriteCapacityUnits': 10
+            }
+        )
+        return table
+    except Exception as e:
+        df = {
+            "Error_Message" : "Something went wrong in controller.create_table_reception_desk()",
+            "Error" : e.args[0]
+        }
+        return df 
 
 
 Hotel_Management = resource.Table('Hotel_Management')
@@ -74,6 +81,7 @@ def write_to_record_table(recept_id, Date, Number_of_members, Name_of_members, I
 
         
         
+        
 def read_from_record_table(recept_id):
     try:
         response = Hotel_Management.get_item(
@@ -94,67 +102,80 @@ def read_from_record_table(recept_id):
         
 
 def delete_from_record_table(recept_id):
-    response = Hotel_Management.delete_item(
-        Key = {
-            'recept_id': recept_id
+    try:
+        response = Hotel_Management.delete_item(
+            Key = {
+                'recept_id': recept_id
+            }
+        )
+        return response
+    except Exception as e:
+        df = {
+            "Error_Message" : "Something went wrong in controller.delete_from_record_table()",
+            "Error" : e.args[0]
         }
-    )
-    return response
-
+        return df 
 
 
 
 def update_in_record_table(recept_id, data:dict):
-    response = Hotel_Management.update_item(
-        Key = {
-            'recept_id': recept_id
-        },
-        AttributeUpdates={
-            'Date': {
-                'Value'  : data['Date'],
-                'Action' : 'PUT' 
+    try:
+        response = Hotel_Management.update_item(
+            Key = {
+                'recept_id': recept_id
             },
-            'Number_of_members': {
-                'Value'  : data['Number_of_members'],
-                'Action' : 'PUT'
+            AttributeUpdates={
+                'Date': {
+                    'Value'  : data['Date'],
+                    'Action' : 'PUT' 
+                },
+                'Number_of_members': {
+                    'Value'  : data['Number_of_members'],
+                    'Action' : 'PUT'
+                },
+                'Name_of_members': {
+                    'Value'  : data['Name_of_members'],
+                    'Action' : 'PUT'
+                },
+                'Id_type': {
+                    'Value'  : data['Id_type'],
+                    'Action' : 'PUT'
+                },
+                'ID': {
+                    'Value'  : data['ID'],
+                    'Action' : 'PUT'
+                },
+                'Room_No': {
+                    'Value'  : data['Room_No'],
+                    'Action' : 'PUT'
+                },
+                'Check_in_time': {
+                    'Value'  : data['Check_in_time'],
+                    'Action' : 'PUT'
+                },
+                'Check_out_time': {
+                    'Value'  : data['Check_out_time'],
+                    'Action' : 'PUT'
+                },
+                'Total_amount': {
+                    'Value'  : data['Total_amount'],
+                    'Action' : 'PUT'
+                },
+                'Payment_method': {
+                    'Value'  : data['Payment_method'],
+                    'Action' : 'PUT'
+                },
+                'Payment_id': {
+                    'Value'  : data['Payment_id'],
+                    'Action' : 'PUT'
+                }
             },
-            'Name_of_members': {
-                'Value'  : data['Name_of_members'],
-                'Action' : 'PUT'
-            },
-            'Id_type': {
-                'Value'  : data['Id_type'],
-                'Action' : 'PUT'
-            },
-            'ID': {
-                'Value'  : data['ID'],
-                'Action' : 'PUT'
-            },
-            'Room_No': {
-                'Value'  : data['Room_No'],
-                'Action' : 'PUT'
-            },
-            'Check_in_time': {
-                'Value'  : data['Check_in_time'],
-                'Action' : 'PUT'
-            },
-            'Check_out_time': {
-                'Value'  : data['Check_out_time'],
-                'Action' : 'PUT'
-            },
-            'Total_amount': {
-                'Value'  : data['Total_amount'],
-                'Action' : 'PUT'
-            },
-            'Payment_method': {
-                'Value'  : data['Payment_method'],
-                'Action' : 'PUT'
-            },
-            'Payment_id': {
-                'Value'  : data['Payment_id'],
-                'Action' : 'PUT'
-            }
-        },
-        ReturnValues = "UPDATED_NEW"  # returns the new updated values
-    )    
-    return response
+            ReturnValues = "UPDATED_NEW"  # returns the new updated values
+        )    
+        return response
+    except Exception as e:
+        df = {
+            "Error_Message" : "Something went wrong in controller.update_in_record_table()",
+            "Error" : e.args[0]
+        }
+        return df 
